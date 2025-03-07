@@ -1,9 +1,9 @@
-import { NextFunction, Request, Response } from "express"
+// import { NextFunction, Request, Response } from "express"
 import express from 'express'
 import dotenv from 'dotenv'
 import mongoose from 'mongoose';
 
-var discogs = require('disconnect');
+// var discogs = require('disconnect');
 var bodyParser = require('body-parser');
 var router = express.Router();
 
