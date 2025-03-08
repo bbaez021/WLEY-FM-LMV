@@ -13,13 +13,13 @@ var SongSchema = new mongoose.Schema({
         type: Number,
         required: false
     },
-    albumInfo: {
+    albumArt: {
         type: String,
         default: "../public/default.jpg"  
     },
     lastAppeared: {
         type: Date,
-        required: false
+        required: false,
     },
     timesAppeared: {
         type: Number,
