@@ -20,5 +20,8 @@
   "homepage": "https://github.com/bbaez021/WLEY-FM-LMV#readme",
   "devDependencies": {
     "@types/node": "^22.13.9"
+  },
+  "dependencies": {
+    "react-router-dom": "^7.3.0"
   }
 }

@@ -7,7 +7,7 @@ var SongSchema = new mongoose.Schema({
     },
     artist: {
         type: String,
-        default: "D.A.R."
+        default: "Unknown Artist"
     },
     releaseYear: {
         type: Number,
