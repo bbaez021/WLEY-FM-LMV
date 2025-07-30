@@ -1,7 +1,8 @@
 import React from 'react';
 // import logo from './logo.svg';
-// import Nav from "./Nav";
+import Nav from "./Nav";
 import Home from "./Home";
+import Add from "./Add";
 import {BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 
@@ -10,12 +11,12 @@ function App() {
     <div className="App">
       <header className="App-header">
         <Router>
-            {/* <Nav/> */}
+            <Nav/>
             <Routes>
                 <Route path="/" element={<Home/>}/>
-                <Route path="/add"/>
-                <Route path="/search"/>
-                <Route path ="/songs/:id"/>
+                <Route path="/add" element={<Add/>}/>
+                <Route path="/calendar"/>
+                <Route path ="/songs"/>
             </Routes>
         </Router>
       </header>
