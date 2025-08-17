@@ -3,13 +3,19 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { ChakraProvider } from '@chakra-ui/react'
+import { defaultSystem } from "@chakra-ui/react"
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+// Chakra tutorial from: https://v2.chakra-ui.com/getting-started
 root.render(
   <React.StrictMode>
-    <App />
+    <ChakraProvider value={defaultSystem}> 
+      <App />
+    </ChakraProvider>
   </React.StrictMode>
 );
 
