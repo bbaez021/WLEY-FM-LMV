@@ -24,7 +24,13 @@ var SongSchema = new mongoose.Schema({
     timesAppeared: {
         type: Number,
         default: 0
+    },
+    rating : {
+        type:Number,
+        required: false,
+        default: NaN
     }
+    
 });
 
 module.exports = mongoose.model('Song', SongSchema);

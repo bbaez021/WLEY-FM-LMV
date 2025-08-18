@@ -1,9 +1,10 @@
 import "./index.css"
+import List from "../List";
 
 function Home(){
     return (
         <div id="main-page">
-            <h1>Test</h1>
+            <List/>
         </div>
     )
 }
