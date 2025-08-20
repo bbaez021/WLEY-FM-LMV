@@ -33,4 +33,5 @@ var SongSchema = new mongoose.Schema({
     
 });
 
-module.exports = mongoose.model('Song', SongSchema);
+const Song = mongoose.model('Song', SongSchema);
+export { Song };
