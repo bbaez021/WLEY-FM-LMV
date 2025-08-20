@@ -1,12 +1,14 @@
 #list-view {
-     width: 75%;
+    width: 75%;
     margin: 0 auto;
+    margin-top: 6vh;
     border: solid orange;
     background-color: yellow;
-    height: 100%;
+    height: 94vh;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     position: relative;
-    top: 6vh;
+    /* top: 6vh; */
+    overflow: scroll;
 }
