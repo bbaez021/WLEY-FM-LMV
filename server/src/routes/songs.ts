@@ -42,6 +42,30 @@ module.exports = function (router:Router) {
     })
 
     songRoute.post(async function (req:Request, res:Response) {
+        const { Rtitle, Rartist, RreleaseYear, RalbumArt,  RisAdded, RspotifyId,  Rrating} = req.body;
+
+        if (!Rtitle || !Rartist){
+            res.status(400).json({message: "Bad Request. Must include Title and Artist.", data: {}});
+            return;
+        }
+        try {
+            const toAdd = new Song({
+                title:Rtitle,
+                artist:Rartist,
+                releaseYear:RreleaseYear,
+                albumArt:RalbumArt,
+                spotifyId:RspotifyId,
+                lastAppeared: RisAdded ? new Date() : undefined,
+                timesAppeared: !RisAdded ? 0 : 1,
+                rating: !Rrating ? NaN : Rrating,
+            });
+
+            const savedSong = await toAdd.save();
+            res.status(201).json({message: "Song added", data: savedSong});
+        }
+        catch (err){
+            res.status(500).json({message: "Internal Server Error.", data: {}})
+        }
         
     })
 

@@ -23,12 +23,16 @@ var SongSchema = new mongoose.Schema({
     },
     timesAppeared: {
         type: Number,
-        default: 0
+        default: 1
     },
     rating : {
         type:Number,
         required: false,
         default: NaN
+    },
+    spotifyId: {
+        type:String,
+        required: true
     }
     
 });
