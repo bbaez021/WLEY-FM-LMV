@@ -59,7 +59,31 @@ const DaysRouter = function (router:Router) {
     });
 
     router.get("/:id", async function (req:Request, res:Response){
-
+         try{
+            const day_id = req.params["id"];
+            const u_id = mongoose.Types.ObjectId.isValid(day_id);
+            //console.log("CONVERTING TO OBJECT_ID");
+            try {
+                //console.log("FIND STARTED");
+                const result = await Day.findOne({_id:u_id});
+                //console.log(result);
+                if (result){
+                    res.status(200).json({message: "Day found", data:result[0]})
+                }
+                else{
+                    res.status(404).json({message: "Day not found",
+                                            data:{}});
+                }
+            }
+            catch (err){
+                res.status(500).json({message: "Internal Server Error - find Song", 
+                                        data: err});
+            }
+        }
+        catch (format_err) {
+            res.status(400).json({message:"Invalid format string for field _id", 
+                                    data: format_err});
+        }
     });
 
     router.put("/:id", async function (req:Request, res:Response){
