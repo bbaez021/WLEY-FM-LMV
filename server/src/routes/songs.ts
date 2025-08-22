@@ -2,11 +2,9 @@ import { Router, Request, Response } from 'express';
 import mongoose, { isValidObjectId, mongo } from 'mongoose';
 import { Song } from "../models/song"
 
-module.exports = function (router:Router) {
-    const songRoute = router.route("/songs");
-    const songIdRoute = router.route("/songs/:id");
+const songsRouter = function (router:Router) {
 
-    songRoute.get(async function (req:Request, res:Response) {
+    router.get('/', async function (req:Request, res:Response) {
         const query = Song.find();
         if (req.query["where"]){
             query.where(JSON.parse(req.query["where"]));
@@ -40,7 +38,7 @@ module.exports = function (router:Router) {
         }
     })
 
-    songRoute.post(async function (req:Request, res:Response) {
+    router.post('/', async function (req:Request, res:Response) {
         const { Rtitle, Rartist, RreleaseYear, RalbumArt,  RisAdded, RspotifyId,  Rrating} = req.body;
 
         if (!Rtitle || !Rartist){
@@ -77,7 +75,7 @@ module.exports = function (router:Router) {
         
     })
 
-    songIdRoute.get(async function (req:Request, res:Response) {
+    router.get('/:id', async function (req:Request, res:Response) {
         try{
             const song_id = req.params["id"];
             const u_id = mongoose.Types.ObjectId.isValid(song_id);
@@ -105,12 +103,14 @@ module.exports = function (router:Router) {
         }
     })
 
-    songIdRoute.put(async function (req:Request, res:Response) {
+    router.put('/"id', async function (req:Request, res:Response) {
         
     })
 
-    songIdRoute.delete(async function (req:Request, res:Response) {
+    router.delete('/:id', async function (req:Request, res:Response) {
         
     })
     return router;
 }
+
+export default songsRouter;

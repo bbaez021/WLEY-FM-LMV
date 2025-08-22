@@ -1,6 +1,6 @@
 // import { NextFunction, Request, Response } from "express"
 import express from 'express'
-import dotenv from 'dotenv'
+import * as dotenv from 'dotenv';
 import mongoose from 'mongoose';
 
 // var discogs = require('disconnect');
@@ -11,7 +11,7 @@ dotenv.config({path: __dirname + "/../config.env"})
 
 const app = express();
 const port = process.env.PORT;
-const path = require('path')
+// const path = require('path')
 
 const uri = process.env.CONNECTION_URI;
 if (!uri){

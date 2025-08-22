@@ -1,6 +1,10 @@
 import { Router, Request, Response } from 'express';
-import mongoose from 'mongoose';
-import { isValidObjectId, Types} from 'mongoose';
+import mongoose, { isValidObjectId, Types} from 'mongoose';
+import { Song } from "../models/song"
+import { Day } from "../models/day"
 
-module.exports = function (router:Router) {
+const DaysRouter = function (router:Router) {
+    return router;
 }
+
+export default DaysRouter;
