@@ -104,11 +104,28 @@ const songsRouter = function (router:Router) {
     })
 
     router.put('/"id', async function (req:Request, res:Response) {
-        
+        // @TODO
     })
 
     router.delete('/:id', async function (req:Request, res:Response) {
-        
+        const id = req.params.id;
+        try {
+           if (!mongoose.Types.ObjectId.isValid(id)) {
+                res.status(400).json({message: "Invalid format string for field _id",
+                                      data: {}});
+           }
+           const result = await Song.findByIdAndDelete(id);
+           if (!result) {
+                res.status(404).json({message: "Song not found", data:{}});
+            }
+            else{
+                res.status(200).json({message: "Song deleted", data: result});
+            }
+        }
+        catch (err){
+            res.status(500).json({message: "Internal Server Error", 
+                                  data: {}});
+        }
     })
     return router;
 }
