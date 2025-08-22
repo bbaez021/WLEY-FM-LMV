@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 var DaySchema = new mongoose.Schema({
-    Day: {
+    DayId: {
         type: Date,
         required: true
     },
