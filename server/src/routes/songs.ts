@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import mongoose, { isValidObjectId, mongo } from 'mongoose';
-import { Song } from "../models/song"
+import { Song, Rating } from "../models/song"
 
 const songsRouter = function (router:Router) {
 
@@ -39,7 +39,7 @@ const songsRouter = function (router:Router) {
     })
 
     router.post('/', async function (req:Request, res:Response) {
-        const { Rtitle, Rartist, RreleaseYear, RalbumArt,  RisAdded, RspotifyId,  Rrating} = req.body;
+        const { Rtitle, Rartist, RreleaseYear, RalbumArt,  RisAdded, RspotifyId,  Rrating, Ruser} = req.body;
 
         if (!Rtitle || !Rartist){
             res.status(400).json({message: "Bad Request. Must include Title and Artist.", data: {}});
@@ -55,7 +55,7 @@ const songsRouter = function (router:Router) {
             return;
         }
         try {
-            const toAdd = new Song({
+            var toAdd = new Song({
                 title:Rtitle,
                 artist:Rartist,
                 releaseYear:RreleaseYear,
@@ -63,8 +63,11 @@ const songsRouter = function (router:Router) {
                 spotifyId:RspotifyId,
                 lastAppeared: !(RisAdded === undefined) ? new Date() : undefined,
                 timesAppeared: !(RisAdded === undefined) ? 1 : 0,
-                rating: (Rrating === undefined) ? [] : [Rrating],
             });
+
+            if (!(Rrating === undefined)) {
+                toAdd.ratings.set(Ruser, Rrating);
+            }
 
             const savedSong = await toAdd.save();
             res.status(201).json({message: "Song added", data: savedSong});

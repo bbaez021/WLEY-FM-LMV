@@ -1,5 +1,15 @@
 import mongoose from 'mongoose';
 
+var RatingSchema = new mongoose.Schema({
+    user: {
+        type:String,
+        required:true
+    },
+    rating: {
+        type: Number
+    }
+})
+
 var SongSchema = new mongoose.Schema({
     title: {
         type: String,
@@ -26,9 +36,8 @@ var SongSchema = new mongoose.Schema({
         default: 1
     },
     ratings : {
-        type:[[String, Number]],
-        required: false,
-        default: []
+        type: Map,
+        required: false
     },
     spotifyId: {
         type:String,
@@ -39,4 +48,5 @@ var SongSchema = new mongoose.Schema({
 });
 
 const Song = mongoose.model('Song', SongSchema);
-export { Song };
+const Rating = mongoose.model('Rating', RatingSchema);
+export { Song, Rating };
