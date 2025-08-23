@@ -61,16 +61,16 @@ const songsRouter = function (router:Router) {
                 releaseYear:RreleaseYear,
                 albumArt:RalbumArt,
                 spotifyId:RspotifyId,
-                lastAppeared: RisAdded ? new Date() : undefined,
-                timesAppeared: RisAdded ? 1 : 0,
-                rating: !Rrating ? NaN : Rrating,
+                lastAppeared: !(RisAdded === undefined) ? new Date() : undefined,
+                timesAppeared: !(RisAdded === undefined) ? 1 : 0,
+                rating: (Rrating === undefined) ? [] : [Rrating],
             });
 
             const savedSong = await toAdd.save();
             res.status(201).json({message: "Song added", data: savedSong});
         }
         catch (err){
-            res.status(500).json({message: "Internal Server Error.", data: {}})
+            res.status(500).json({message: "Internal Server Error.", data: err})
         }
         
     })
@@ -105,6 +105,55 @@ const songsRouter = function (router:Router) {
 
     router.put('/"id', async function (req:Request, res:Response) {
         // @TODO
+
+        const id = req.params.id;
+        const updates = req.body;
+
+        // Validate ID
+        if(!isValidObjectId(id) || updates.spotifyId) {
+            res.status(400).json({ message: "Invalid Song ID", data: {} });
+            return;
+        }
+
+        if (updates.user === undefined){
+            res.status(403).json({ message: "Unknown user attempting to change database", data: {} });
+            return;
+        }
+
+        if (updates.appears === undefined){
+            res.status(400).json({ message: "Appearance not given", data: {} });
+            return;
+        }
+        try{
+            var song = await Song.findById(id);
+            if (!song){
+                res.status(404).json({ message: "Song not found", data: {} });
+                return;
+            }
+
+            song.timesAppeared = (updates.appears === undefined || updates.appears === false) ? (song.timesAppeared) : (song.timesAppeared + 1);
+
+            if (updates.date){
+                song.lastAppeared = (updates.date > song.lastAppeared) ? updates.date : song.lastAppeared;
+            }
+            if (updates.newRating){
+                song.ratings[updates.user] = updates.newRating;
+            }
+
+            if (updates.title) song.title = updates.title;
+            if (updates.artist) song.artist = updates.artist;
+            if (updates.releaseYear) song.releaseYear = updates.releaseYear;
+            if (updates.albumArt) song.albumArt = updates.albumArt;
+
+            const result = await song.save();
+            res.status(200).json({ message: "Song Updated", data: result});
+        } 
+        catch (err){
+            res.status(500).json({ message: "Internal Server Error - Bad Request", data: err });
+            return;
+        }
+        
+        
     })
 
     router.delete('/:id', async function (req:Request, res:Response) {
@@ -124,7 +173,7 @@ const songsRouter = function (router:Router) {
         }
         catch (err){
             res.status(500).json({message: "Internal Server Error", 
-                                  data: {}});
+                                  data: err});
         }
     })
     return router;

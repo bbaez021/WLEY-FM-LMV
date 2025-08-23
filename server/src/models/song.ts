@@ -25,14 +25,15 @@ var SongSchema = new mongoose.Schema({
         type: Number,
         default: 1
     },
-    rating : {
-        type:Number,
+    ratings : {
+        type:[[String, Number]],
         required: false,
-        default: NaN
+        default: []
     },
     spotifyId: {
         type:String,
-        required: true
+        required: true,
+        unique: true
     }
     
 });
