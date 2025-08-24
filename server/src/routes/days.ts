@@ -42,6 +42,14 @@ const DaysRouter = function (router:Router) {
     router.post("/", async function (req:Request, res:Response){
         const { rDayId, risNoon, rSongs} = req.body;
         try{
+            rSongs.forEach(async element => {
+                const rst = await Song.findById(element);
+                if (!rst){
+                    res.status(400).json( {message: "Song not found", data: {} });
+                    return;
+                }
+            });
+
             const toAdd = new Day ({
                 DayId:rDayId,
                 isNoon:risNoon,
@@ -88,6 +96,28 @@ const DaysRouter = function (router:Router) {
 
     router.put("/:id", async function (req:Request, res:Response){
         // @TODO:
+        const id = req.params.id;
+        const updates = req.body;
+
+        // Validate ID
+        if(!isValidObjectId(id)) {
+            res.status(400).json({ message: "Invalid Song ID", data: {} });
+            return;
+        }
+
+        if (updates.user === undefined){
+            res.status(403).json({ message: "Unknown user attempting to change database", data: {} });
+            return;
+        }
+
+        try{
+
+        }
+        catch (err) {
+            res.status(500).json({ message: "Internal Server Error - POST (Day)", data: {} });
+            return;
+        }
+
     });
 
     router.delete("/:id", async function (req:Request, res:Response){
