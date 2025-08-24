@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express';
 import mongoose, { isValidObjectId, Types} from 'mongoose';
 import { Song } from "../models/song"
 import { Day } from "../models/day"
+import { data } from 'react-router-dom';
 
 const DaysRouter = function (router:Router) {
 
@@ -111,6 +112,32 @@ const DaysRouter = function (router:Router) {
         }
 
         try{
+
+            var day = await Day.findById(id);
+            if (!day){
+                    res.status(404).json({ message: "Day not found", data: {} });
+                    return;
+            }
+
+            if(updates.songUpdate){
+                updates.rSongs.forEach(async element => {
+                    const rst = await Song.findById(element);
+                    if (!rst){
+                        res.status(400).json( {message: "Song not found, could not update (PUT)", data: {} });
+                        return;
+                    }
+                });
+                day.Songs = updates.rSongs;
+            }
+            if (updates.dateId){
+                day.DayId = updates.dateId;
+            }
+
+            if (!(updates.isNoon === undefined)){
+                day.isNoon = updates.isNoon;
+            }
+            const result = await day.save();
+            res.status(200).json({ message: "Date updated", data: result});
 
         }
         catch (err) {
