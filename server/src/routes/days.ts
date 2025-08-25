@@ -2,7 +2,6 @@ import { Router, Request, Response } from 'express';
 import mongoose, { isValidObjectId, Types} from 'mongoose';
 import { Song } from "../models/song"
 import { Day } from "../models/day"
-import { data } from 'react-router-dom';
 
 const DaysRouter = function (router:Router) {
 
@@ -137,7 +136,7 @@ const DaysRouter = function (router:Router) {
                 day.isNoon = updates.isNoon;
             }
             const result = await day.save();
-            res.status(200).json({ message: "Date updated", data: result});
+            res.status(200).json({ message: "Date updated", data: result });
 
         }
         catch (err) {

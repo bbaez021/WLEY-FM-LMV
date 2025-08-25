@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import mongoose, { isValidObjectId, mongo } from 'mongoose';
-import { Song, Rating } from "../models/song"
+import { Song } from "../models/song"
 
 const songsRouter = function (router:Router) {
 

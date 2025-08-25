@@ -1,15 +1,5 @@
 import mongoose from 'mongoose';
 
-var RatingSchema = new mongoose.Schema({
-    user: {
-        type:String,
-        required:true
-    },
-    rating: {
-        type: Number
-    }
-})
-
 var SongSchema = new mongoose.Schema({
     title: {
         type: String,
@@ -48,5 +38,4 @@ var SongSchema = new mongoose.Schema({
 });
 
 const Song = mongoose.model('Song', SongSchema);
-const Rating = mongoose.model('Rating', RatingSchema);
-export { Song, Rating };
+export { Song };
